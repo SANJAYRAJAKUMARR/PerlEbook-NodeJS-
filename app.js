@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const ejs= require('ejs');
 const { Sequelize, DataTypes } = require('sequelize');
-const port = 3000;
+const port = 3306;
 app.use(upload());
 app.use(express.static('public'));
 app.use(bodyParser.json());
