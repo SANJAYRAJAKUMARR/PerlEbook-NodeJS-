@@ -40,6 +40,10 @@ const connection = mysql.createConnection({
     database: 'sanju'
 });
 
+if (connection.state === 'disconnected') {
+  connection.connect(); // Reconnect if the connection is closed
+}
+
 // Connect to the MySQL database
 connection.connect((err) => {
     if (err) {
