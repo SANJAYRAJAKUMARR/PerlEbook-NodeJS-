@@ -38,7 +38,8 @@ const connection = mysql.createConnection({
     port:3306,
     user: 'root',
     password: 'Sanjay@12',
-    database: 'sanju'
+    database: 'sanju',
+    connectTimeout: 20000,
 });
 
 
