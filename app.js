@@ -34,15 +34,14 @@ app.use(session({
 app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
+  connectionLimit: 10,
     host: 'localhost',
     user: 'root',
     password: 'Sanjay@12',
     database: 'sanju'
 });
 
-if (connection.state === 'disconnected') {
-  connection.connect(); // Reconnect if the connection is closed
-}
+
 
 // Connect to the MySQL database
 connection.connect((err) => {
