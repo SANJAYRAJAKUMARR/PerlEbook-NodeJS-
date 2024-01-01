@@ -13,8 +13,8 @@
        /* Set background color to wheat */
     }
     .sub{
-      
-transform: translateX(-750px);
+      position: absolute;
+transform: translateY(-20px);
   left: 10px; /* Adjust left position as needed */
   color: #333; /* Set the text color */
   font-size: 24px;
@@ -328,7 +328,7 @@ button.selected {
         fetchBooks('harryPotter', 'Harry Potter');
       });
   
-      const booksPerPage = 10;
+      const booksPerPage = 9;
       let adventuresData = []; // Store the fetched adventures books
       let harryPotterData = []; // Store the fetched Harry Potter books
       let adventuresCurrentPage = 0;
