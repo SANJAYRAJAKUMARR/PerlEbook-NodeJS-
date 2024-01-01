@@ -34,8 +34,8 @@ app.use(session({
 app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
-  connectionLimit: 10,
     host: 'localhost',
+    port:3306,
     user: 'root',
     password: 'Sanjay@12',
     database: 'sanju'
