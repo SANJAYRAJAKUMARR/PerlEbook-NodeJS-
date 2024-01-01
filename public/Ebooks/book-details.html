@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details</title>
+  <link rel="stylesheet" href="./ebook_style.css">
+  <style>
+    #previewButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+}
+
+#previewButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    #details {
+     
+      text-align: left;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      margin: 10px;
+      padding: 10px;
+      width: 1000px;
+    }
+
+    .card img {
+      max-width: 100%;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    .card-details {
+      flex: 1;
+    }
+
+    .star-icon {
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo"><img src="/img/logo.png" alt=""></a>
+            <div class="end_bx">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="/publish">Publish</a></li>
+                    <li><a href="Audio_Books/books_1.html">Audio Books</a></li>
+                    <li>Category <i class="fas fa-angle-down"></i>
+                        <div class="list">
+                            <a href="#">Trends Now</a>
+                            <a href="#">Popular</a>
+                            <a href="#">Prefrenes</a>
+                            <a href="#">Recently Added</a>
+                            <a href="#">Bollywood</a>
+                            <a href="#">Tollywood</a>
+                        </div>
+                    </li>
+                </ul>
+                
+               
+                <div class="cart-icon">
+                    <a href="/cart">
+                        <i class="fas fa-shopping-cart" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <div class="user-icon">
+                    <a href="/profile">
+                        <i class="fa fa-user" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <div class="signout">
+                    <a href="/signout">
+                        <i class="fas fa-sign-out-alt" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <!-- <div class="user">
+                    <img src="img/user.png" alt="Jahid Khan" title="jahid khan">
+                </div> -->
+            </div>
+        </nav>
+        
+        
+       
+    </header>
+  <div id="details">
+    <h1>Book Details</h1>
+    <div class="card">
+      <img id="bookCover" alt="Book Cover">
+      <div class="card-details">
+        <h2 id="bookTitle"></h2>
+        <p id="ratings_average"></p>
+        <p id='currently_reading_count'></p>
+        <p id="already_read_count"></p>
+        <p id="want_to_read_count"></p>
+        <p id="first_sentence"></p>
+        <p id="author_name"></p>
+       
+        <button id="previewButton" onclick="navigateToPreviewPage()">Preview Book</button>
+ 
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const title = urlParams.get('title');
+    const ratings_average = urlParams.get('ratings_average');
+    const currently_reading_count = urlParams.get('currently_reading_count');
+    const already_read_count = urlParams.get('already_read_count');
+    const want_to_read_count = urlParams.get('want_to_read_count');
+    const first_sentence=urlParams.get('first_sentence');
+    const author_name=urlParams.get('author_name');
+    const coverId = urlParams.get('coverId');
+const isbn=urlParams.get('isbn');
+
+
+
+    // Display book details
+    document.getElementById('bookTitle').textContent = decodeURIComponent(title);
+    document.getElementById('ratings_average').innerHTML = `Rating:<i class="star-icon">&#9733;</i> ${decodeURIComponent(ratings_average)}`;
+    document.getElementById('currently_reading_count').textContent = `Currently Reading Count: ${decodeURIComponent(currently_reading_count)}`;
+    document.getElementById('already_read_count').textContent = `Already Read Count: ${decodeURIComponent(already_read_count)}`;
+    document.getElementById('want_to_read_count').textContent = `Want to Read Count: ${decodeURIComponent(want_to_read_count)}`;
+    document.getElementById('first_sentence').textContent=`Description: ${decodeURIComponent(first_sentence)}`;
+    document.getElementById('author_name').textContent=`Author Name: ${decodeURIComponent(author_name)}`;
+     
+document.getElementById('bookCover').src = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
+
+function navigateToPreviewPage() {
+    // Fetch data from the specified API
+    const apiURL = `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json`;
+
+    fetch(apiURL)
+      .then(response => response.json())
+      .then(data => {
+        // Extract the preview URL
+        const previewUrl = data[`ISBN:${isbn}`]?.preview_url;
+
+        // Check if the URL starts with "archive.org"
+        if (previewUrl && previewUrl.startsWith('https://archive.org')) {
+          // Append "/mode/2up?view=theater" to the preview URL
+          const finalPreviewUrl = `${previewUrl}/mode/2up?view=theater`;
+
+          // Navigate to the final preview URL
+          window.location.href = finalPreviewUrl;
+        } else {
+          // Display an alert message if the URL is not from "archive.org"
+          alert('Book not found.');
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+  </script>
+</body>
+</html>

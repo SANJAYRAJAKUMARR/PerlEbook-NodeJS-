@@ -1,0 +1,57 @@
+<!-- pdfs-list.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of PDFs</title>
+    <style>
+        /* Add your styles here if needed */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color:white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(90deg, #C7C5F4, #776BCC);	 /* Set your desired background color */
+}
+h2{
+    color: wheat;
+}
+    </style>
+</head>
+<body>
+    <h2>List of request to Publish books</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Person Name</th>
+                <th>Filename</th>
+                <th>PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < pdfFiles.length; i++) { %>
+                <tr>
+                    <td><%= pdfFiles[i].person_name %></td>
+                    <td><%= pdfFiles[i].filename %></td>
+                    <td><a href="/pdfs/<%= pdfFiles[i].filename %>" target="_blank">Open PDF</a></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

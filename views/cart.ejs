@@ -1,0 +1,219 @@
+<!-- views/books.ejs -->
+<html>
+<head>
+  <title>Your Cart </title>
+  <style>
+   
+  #totalAmount {
+    display: block;
+    margin: 20px;
+    color: #757575; /* Use your preferred grey color code */
+  }
+
+
+
+.card h2 {
+  font-size: 28px; /* Increase font size for the book name */
+  color: #1a237e; /* Change text color for the book name (you can use any color code) */
+}
+
+.card p {
+  font-size: 24px; /* Default font size for paragraphs */
+}
+
+.author {
+  font-size: 26px; /* Increase font size for the author */
+  color: #009688; /* Change text color for the author */
+}
+
+.price {
+  font-size: 26px; /* Increase font size for the price */
+  color: #e65100; /* Change text color for the price */
+}
+
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(90deg, #C7C5F4, #776BCC);	
+    }
+
+    .card {
+      width: 100%; /* Full width of the container */
+      margin: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #f2f2f2;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .card img {
+      width: 200px;
+      height: 230px;
+      margin-right: 10px; /* Add margin between image and text */
+      float: left; /* Align the image to the left */
+    }
+
+    .card div {
+      float: left; /* Align the content to the left */
+    }
+
+    .quantity {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity label {
+      margin-right: 10px;
+    }
+
+    .quantity input {
+      width: 40px;
+      text-align: center;
+      margin-right: 10px;
+    }
+
+    .quantity button {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .quantity .decrement {
+      margin-right: 5px; /* Add space between decrement button and input */
+    }
+
+    h1 {
+      text-align: center;
+      width: 100%;
+    }
+
+    #totalAmount {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+  
+  
+</head>
+<body>
+  <h1 style="color: wheat;"> </style>Your Cart (<span id="cartItemCount"></span> items)</h1>
+  <% cart.forEach(function(book) { %>
+    <div class="card">
+      <img src="book_images/<%= book.name.toLowerCase() %>.jpg"  alt="Book Image">
+      <div>
+        <h2><%= book.name %></h2>
+        <p><strong>Author:</strong> <%= book.author %></p>
+        <p class="price" data-original-price="<%= book.price %>">
+          Price: $<%= (typeof book.price === 'number' ? 'N/A' : book.price) %>
+        </p>
+         <!-- Quantity buttons -->
+        <div class="quantity">
+          <button class="decrement">-</button>
+          <input type="number" id="quantity" name="quantity" value="1" min="1">
+          <button class="increment">+</button>
+        </div>
+        <!-- Add more fields based on your table structure -->
+        <form action="/removefromcart" method="post">
+          <input type="hidden" name="bookname" value="<%= book.name %>">
+          <button type="submit" style="background-color: #dc3545; color: #fff; padding: 5px 10px; font-size: 14px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Remove from Cart</button>
+        </form>
+      </div>
+    </div>
+  <% }); %>
+  <div id="totalAmount"></div>
+  <!-- <a href="/generate-pdf" download="user_cart.pdf"> -->
+    <button id="mailsend" style="background-color: #e74c3c; color: #fff; padding: 10px 20px; font-size: 18px; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;">Buy Now</button>
+  <!-- </a> -->
+ </body>
+ <script>
+  document.getElementById('mailsend').addEventListener('click', function() {
+    // Make a request to the server to trigger the send-email.js script
+    fetch('/send-email', { method: 'POST' })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert('Order Placed Successfully!');
+      })
+      .catch(error => console.error('Error sending email:', error));
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Calculate and update the number of items in the cart
+    var cartItemCount = <%= cart.length %>; // Assuming 'cart' is an array of items
+    document.getElementById('cartItemCount').innerText = cartItemCount;
+
+    // Add event listeners to quantity buttons
+    var quantityButtons = document.querySelectorAll('.quantity button');
+    quantityButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        updateQuantity(this);
+      });
+    });
+
+    // Function to update the quantity
+    function updateQuantity(element) {
+    var card = element.closest('.card');
+    var quantityInput = card.querySelector('.quantity input');
+    var currentQuantity = parseInt(quantityInput.value);
+
+    if (element.classList.contains('increment')) {
+      quantityInput.value = currentQuantity + 1;
+    } else if (element.classList.contains('decrement') && currentQuantity > 1) {
+      quantityInput.value = currentQuantity - 1;
+    }
+
+    updatePrice(quantityInput);
+    updateTotal();
+  }
+
+    // Function to update the price based on the selected quantity
+    function updatePrice(element) {
+var card = element.closest('.card');
+var priceElement = card.querySelector('.price');
+var price = parseFloat(priceElement.dataset.originalPrice);
+
+if (isNaN(price)) {
+  console.error('Invalid price:', price);
+  return;
+}
+
+var quantity = parseInt(element.value);
+var total = price * quantity;
+priceElement.innerText = 'Price: $' + (isNaN(total) ? 'N/A' : total);
+}
+
+
+    // Function to update the total amount
+    function updateTotal() {
+      var totalAmount = 0;
+      var priceElements = document.querySelectorAll('.price');
+      priceElements.forEach(function(priceElement) {
+        var price = parseFloat(priceElement.innerText.replace('Price: $', ''));
+        if (!isNaN(price)) {
+          totalAmount += price;
+        }
+      });
+
+      document.getElementById('totalAmount').innerText = 'Total Amount: $' + totalAmount;
+    }
+
+    // Initial update for each card
+    var quantityInputs = document.querySelectorAll('.quantity input');
+    quantityInputs.forEach(function(input) {
+      updatePrice(input);
+      updateTotal();
+    });
+  });
+</script>
+</html>

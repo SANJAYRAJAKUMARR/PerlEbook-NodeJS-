@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "@vonage/server-sdk": "^3.10.0",
+    "alert": "^6.0.1",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express-fileupload": "^1.4.3",
+    "express-session": "^1.17.3",
+    "nodemon": "^3.0.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-google-oauth20": "^2.0.0",
+    "pdfkit": "^0.14.0",
+    "sequelize": "^6.35.1"
+  }
+}

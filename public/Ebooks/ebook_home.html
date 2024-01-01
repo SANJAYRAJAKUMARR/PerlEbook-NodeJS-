@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./ebook_style.css">
+  <title>Book Search</title>
+  <style>
+    .carousel-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+       /* Set background color to wheat */
+    }
+    .sub{
+      
+transform: translateX(-750px);
+  left: 10px; /* Adjust left position as needed */
+  color: #333; /* Set the text color */
+  font-size: 24px;
+    }
+    .sub1{
+      position: absolute;
+    transform: translateY(-40px);
+    padding: 10px;
+    left: 10px;
+    }
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      padding: 20px;
+    }
+
+    .card1 {
+      flex: 0 0 auto;
+      margin: 0 5px;
+      width: 150px; /* Set a fixed width for each book */
+      height: 230px; /* Set a fixed height for each book */
+      border: 2px solid #8B4513; /* Set border color to brown */
+      border-radius: 8px; /* Add border radius for a rounded look */
+    }
+
+    .card1 img {
+      width: 150px;
+      height: 230px; /* Ensure the image does not exceed the card's height */
+      cursor: pointer; /* Add cursor pointer to the book image */
+    }
+
+    .prev-button2{
+        cursor: pointer;
+      background-color: #8B4513; /* Set text color to brown */
+      font-size: 24px;
+    
+      position:absolute;
+      transform: translateY(350%);
+      left: 10px;
+    }
+    .prev-button{
+        cursor: pointer;
+      background-color: #8B4513; /* Set text color to brown */
+      font-size: 24px;
+      transform: translateY(280%);
+      position:absolute;
+      left: 10px;
+    }
+
+    .next-button1{
+        cursor: pointer;
+      background-color: #8B4513; /* Set text color to brown */
+      font-size: 24px;
+      top: 50%;
+      transform: translateY(-330%);
+      margin-left: auto;
+    }
+
+    .next-button{
+        cursor: pointer;
+      background-color: #8B4513; /* Set text color to brown */
+      font-size: 24px;
+      top: 50%;
+      transform: translateY(-350%);
+      margin-left: auto;
+    }
+
+    div {
+  display: inline-block;
+}
+
+.buttons-container {
+  margin-bottom: 20px;
+}
+
+.books-container {
+  display: flex;
+  flex-direction: row; /* Display books in a horizontal row */
+  justify-content: center;
+  flex-wrap: wrap; /* Allow wrapping to the next line if necessary */
+}
+
+.book-card1 {
+  margin: 10px;
+  padding: 10px;
+  width: 250px;
+  text-align: left;
+}
+
+.book-card1 img {
+  max-width: 200px;
+  height: 250px; /* Adjusted height for better layout */
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: red; /* Initial background color */
+  color: white; /* Initial text color */
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+}
+
+button:hover {
+  background-color: wheat;
+  color: red;
+}
+
+button.selected {
+  background-color: white; /* Background color when button is selected */
+  color: red; /* Text color when button is selected */
+}
+    
+.section2 .container {
+  display: flex;
+  width: 100%;
+  height: max-content;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px auto;
+}
+.section2 .container .items {
+  margin: 10px;
+  width: 200px;
+  height: 300px;
+  background-color: white;
+  border: 2.5px solid black;
+  border-radius: 12px;
+}
+.section2 .container .items .name {
+  text-align: center;
+  background-color: rgb(240, 197, 6);
+  height: 25px;
+  padding-top: 4px;
+  color: white;
+  margin: 0;
+}
+.section2 .container .items .price {
+  float: left;
+  padding-left: 10px;
+  display: block;
+  width: 100%;
+  color: rgb(255, 0, 0);
+  font-weight: 650;
+}
+.section2 .container .items .info {
+  padding-left: 10px;
+  color: rgb(243, 168, 7);
+}
+.section2 .container .items .img img {
+  width: 200px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+  border-radius: 12px;
+  transition-duration: 0.8s;
+}
+.section2 .container .items .img {
+  overflow: hidden;
+  margin: 0;
+}
+.section2 .container .items:hover .img img {
+  transform: scale(1.2);
+  transition-duration: 0.8s;
+  border-radius: 12px;
+}
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    #searchInput {
+      width: 300px;
+      padding: 8px;
+    }
+
+    #searchButton {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    #results {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      margin: 10px;
+      padding: 10px;
+      width: 250px;
+      text-align: left;
+    }
+
+    .card img {
+      max-width: 100%;
+      height: 300px; /* Set a fixed height for all images */
+      object-fit: cover;
+      margin-top: 10px;
+    }
+    .card-heading {
+      margin-bottom: 10px; /* Space between heading and pic */
+    }
+
+    .read-now-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: auto; /* Place button at the bottom of the card */
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo"><img src="/img/logo.png" alt=""></a>
+            <div class="end_bx">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="/publish">Publish</a></li>
+                    <li><a href="Audio_Books/books_1.html">Audio Books</a></li>
+                    <li>Category <i class="fas fa-angle-down"></i>
+                        <div class="list">
+                            <a href="#">Trends Now</a>
+                            <a href="#">Popular</a>
+                            <a href="#">Prefrenes</a>
+                            <a href="#">Recently Added</a>
+                            <a href="#">Bollywood</a>
+                            <a href="#">Tollywood</a>
+                        </div>
+                    </li>
+                </ul>
+                
+               
+                <div class="cart-icon">
+                    <a href="/cart">
+                        <i class="fas fa-shopping-cart" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <div class="user-icon">
+                    <a href="/profile">
+                        <i class="fa fa-user" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <div class="signout">
+                    <a href="/signout">
+                        <i class="fas fa-sign-out-alt" style="color: rgba(122, 239, 20, 0.7);"></i>
+                    </a>
+                </div>
+                <!-- <div class="user">
+                    <img src="img/user.png" alt="Jahid Khan" title="jahid khan">
+                </div> -->
+            </div>
+        </nav>
+        
+        
+       
+    </header>
+    <!-- <div class="buttons-container">
+      <button onclick="fetchAndDisplayBooks('animation')">Animation</button>
+      <button onclick="fetchAndDisplayBooks('fantasy')">Fantasy</button>
+      <button onclick="fetchAndDisplayBooks('horror')">Horror</button>
+      <button onclick="fetchAndDisplayBooks('romance')">Romance</button>
+      <button onclick="fetchAndDisplayBooks('kids')">Kids</button>
+      <button onclick="fetchAndDisplayBooks('thrillers')">Thrillers</button>
+      <button onclick="fetchAndDisplayBooks('biographies')">Biographies</button>
+      <button onclick="fetchAndDisplayBooks('medicine')">Medicine</button>
+      <button onclick="fetchAndDisplayBooks('religion')">Religion</button>
+    </div>
+  
+    <div id="results1" class="books-container"></div> -->
+  <h1>Book Search</h1>
+  <label for="searchInput"></label>
+  <input type="text" id="searchInput" placeholder="e.g., The Lord of the Rings">
+  <button id="searchButton" onclick="searchBooks()">Search</button>
+  <div id="results"></div>
+  <div class="carousel-container">
+    <h2 class="sub">Adventures</h2>
+    <div class="carousel" id="adventuresCarousel">
+      <!-- Adventures results will be displayed here -->
+    </div>
+    <button class="nav-button prev-button2" onclick="scrollBooks('adventures', -1)">◄</button>
+    <button class="nav-button next-button1" onclick="scrollBooks('adventures', 1)">►</button>
+  </div>
+
+  <div class="carousel-container">
+    <h2 class="sub1">Harry Potter</h2>
+    <div class="carousel" id="harryPotterCarousel">
+      <!-- Harry Potter results will be displayed here -->
+    </div>
+    <button class="nav-button prev-button" onclick="scrollBooks('harryPotter', -1)">◄</button>
+    <button class="nav-button next-button" onclick="scrollBooks('harryPotter', 1)">►</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchBooks('adventures', 'Adventures');
+        fetchBooks('harryPotter', 'Harry Potter');
+      });
+  
+      const booksPerPage = 10;
+      let adventuresData = []; // Store the fetched adventures books
+      let harryPotterData = []; // Store the fetched Harry Potter books
+      let adventuresCurrentPage = 0;
+      let harryPotterCurrentPage = 0;
+  
+      function fetchBooks(category, title) {
+        const apiUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(title)}`;
+  
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            // Extract book details
+            const books = data.docs || [];
+  
+            if (category === 'adventures') {
+              adventuresData = books;
+              displayBooks(category, adventuresCurrentPage);
+            } else if (category === 'harryPotter') {
+              harryPotterData = books;
+              displayBooks(category, harryPotterCurrentPage);
+            }
+          })
+          .catch(error => {
+            console.error(`Error fetching ${title} books:`, error);
+          });
+      }
+  
+      function displayBooks(category, page) {
+        const carouselId = `${category}Carousel`;
+        const bookCarousel = document.getElementById(carouselId);
+        const data = category === 'adventures' ? adventuresData : harryPotterData;
+        const currentPage = category === 'adventures' ? 'adventuresCurrentPage' : 'harryPotterCurrentPage';
+        
+        window[currentPage] = page;
+        
+        const start = window[currentPage] * booksPerPage;
+        const end = Math.min(start + booksPerPage, data.length);
+  
+        // Clear existing books
+        bookCarousel.innerHTML = '';
+  
+        // Display book details in the HTML
+        for (let i = start; i < end; i++) {
+          const book = data[i];
+          if (book.cover_i) {
+            const card1 = document.createElement('div');
+            card1.className = 'card1';
+  
+            const img = document.createElement('img');
+            img.src = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+            img.alt = 'Book Cover';
+  
+            // Add a click event to redirect to book-details.html
+            img.onclick = function () {
+              showBookDetails(book);
+            };
+  
+            card1.appendChild(img);
+            bookCarousel.appendChild(card1);
+          }
+        }
+      }
+  
+      function scrollBooks(category, direction) {
+        const data = category === 'adventures' ? adventuresData : harryPotterData;
+        const currentPage = category === 'adventures' ? 'adventuresCurrentPage' : 'harryPotterCurrentPage';
+  
+        window[currentPage] += direction;
+  
+        // Handle boundary conditions
+        if (window[currentPage] < 0) {
+          window[currentPage] = 0;
+        } else if (window[currentPage] >= Math.ceil(data.length / booksPerPage)) {
+          window[currentPage] = Math.max(0, Math.ceil(data.length / booksPerPage) - 1);
+        }
+  
+        displayBooks(category, window[currentPage]);
+      }
+  
+      function showBookDetails(book) {
+        if (book && book.title) {
+          const title = encodeURIComponent(book.title);
+          const ratings_average = encodeURIComponent(book.ratings_average && book.ratings_average ? book.ratings_average : 'No ratings available');
+          const currently_reading_count = encodeURIComponent(book.currently_reading_count || 0);
+          already_read_count = encodeURIComponent(book.already_read_count || 0);
+          const want_to_read_count = encodeURIComponent(book.want_to_read_count || 0);
+          const first_sentence = encodeURIComponent(book.first_sentence ? book.first_sentence : 'No description');
+          const author_name = encodeURIComponent(book.author_name ? book.author_name.join(', ') : 'Unknown');
+          const isbn = encodeURIComponent(book.isbn && book.isbn.length > 0 ? book.isbn[0] : 'No ISBN available');
+          const coverId = encodeURIComponent(book.cover_i);
+  
+          // Redirect to book-details.html with book details as parameters
+          window.location.href = `book-details.html?title=${title}&ratings_average=${ratings_average}&currently_reading_count=${currently_reading_count}&already_read_count=${already_read_count}&want_to_read_count=${want_to_read_count}&first_sentence=${first_sentence}&author_name=${author_name}&isbn=${isbn}&coverId=${coverId}`;
+        } else {
+          console.error('Invalid book object:', book);
+        }
+      }
+  
+  
+
+// Function to create a book card
+function createBookCard(book) {
+ return `
+   <div class="book-card">
+  
+     <img src="${book.image}" alt="${book.title}">
+   </div>
+ `;
+}
+    // Function to get or set data in sessionStorage
+    function sessionData(key, value) {
+      if (value !== undefined) {
+        sessionStorage.setItem(key, JSON.stringify(value));
+      } else {
+        const storedValue = sessionStorage.getItem(key);
+        return storedValue ? JSON.parse(storedValue) : null;
+      }
+    }
+
+    // Function to fetch search results
+    function fetchSearchResults(searchInput) {
+      const apiUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(searchInput)}`;
+
+      return fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => data.docs || [])
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          return [];
+        });
+    }
+
+    // Function to perform a book search
+    function searchBooks() {
+      const searchInput = document.getElementById('searchInput').value;
+
+      // Clear session storage if the search input is empty
+      if (!searchInput) {
+        sessionData('searchResults', null);
+        displayResults([]);
+        return;
+      }
+
+      fetchSearchResults(searchInput).then(results => {
+        displayResults(results);
+        // Store the search results in sessionStorage
+        sessionData('searchResults', results);
+      });
+    }
+
+    function displayResults(books) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = '';
+
+        if (books.length > 0) {
+          books.forEach(book => {
+            if (book.cover_i) {
+              const card = document.createElement('div');
+              card.className = 'card';
+
+            //   const title = document.createElement('h2');
+            //   title.textContent = book.title;
+            //   card.appendChild(title);
+
+              const img = document.createElement('img');
+              img.src = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+              img.alt = 'Book Cover';
+              card.appendChild(img);
+
+              const readNowButton = document.createElement('button');
+              readNowButton.className = 'read-now-button';
+              readNowButton.textContent = 'Read Now';
+              readNowButton.addEventListener('click', () => {
+                showBookDetails(book);
+              });
+              card.appendChild(readNowButton);
+
+              resultsContainer.appendChild(card);
+            }
+          });
+        } else {
+          resultsContainer.textContent = 'No results found.';
+        }
+      }
+
+    // Function to display book details
+    function showBookDetails(book) {
+      const title = encodeURIComponent(book.title);
+      const ratings_average = encodeURIComponent(book.ratings_average || 'No ratings available');
+      const currently_reading_count = encodeURIComponent(book.currently_reading_count);
+      const already_read_count = encodeURIComponent(book.already_read_count);
+      const want_to_read_count = encodeURIComponent(book.want_to_read_count);
+      const first_sentence = encodeURIComponent(book.first_sentence || 'No description');
+      const author_name = encodeURIComponent(book.author_name);
+      const isbn = encodeURIComponent(book.isbn.length > 0 ? book.isbn[0] : 'No ISBN available');
+      const coverId = encodeURIComponent(book.cover_i);
+
+      // Store book details in sessionStorage for retrieval on the details page
+      sessionData('bookDetails', {
+        title,
+        ratings_average,
+        currently_reading_count,
+        already_read_count,
+        want_to_read_count,
+        first_sentence,
+        author_name,
+        isbn,
+        coverId
+      });
+
+      window.location.href = `book-details.html?title=${title}&ratings_average=${ratings_average}&currently_reading_count=${currently_reading_count}&already_read_count=${already_read_count}&first_sentence=${first_sentence}&author_name=${author_name}&isbn=${isbn}&coverId=${coverId}`;
+    }
+
+    // Retrieve and display search results if available
+    const storedResults = sessionData('searchResults');
+    if (storedResults) {
+      displayResults(storedResults);
+    }
+  </script>
+</body>
+</html>

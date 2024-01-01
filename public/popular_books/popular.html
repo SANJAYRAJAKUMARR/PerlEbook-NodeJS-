@@ -1,0 +1,293 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./popular.css">
+    </head>
+    <style>
+      .second{
+        margin: 20px;
+      }
+      article {
+    --img-scale: 1.001;
+    --title-color: black;
+    --link-icon-translate: -20px;
+    --link-icon-opacity: 0;
+    position: relative;
+    border-radius: 16px;
+    box-shadow: none;
+    background: #fff;
+    transform-origin: center;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+  }
+  
+  article a::after {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    cursor: pointer;
+    content: "";
+  }
+  
+  /* basic article elements styling */
+  article h2 {
+    margin: 0 0 18px 0;
+    font-family: "Bebas Neue", cursive;
+    font-size: 1.9rem;
+    letter-spacing: 0.06em;
+    color: var(--title-color);
+    transition: color 0.3s ease-out;
+  }
+  
+  figure {
+    margin: 0;
+    padding: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  
+  article img {
+    max-width: 100%;
+    transform-origin: center;
+    transform: scale(var(--img-scale));
+    transition: transform 0.4s ease-in-out;
+  }
+  
+  .article-body {
+    padding: 24px;
+  }
+  
+  article a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #28666e;
+  }
+  
+  article a:focus {
+    outline: 1px dotted #28666e;
+  }
+  
+  article a .icon {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    transform: translateX(var(--link-icon-translate));
+    opacity: var(--link-icon-opacity);
+    transition: all 0.3s;
+  }
+  
+  /* using the has() relational pseudo selector to update our custom properties */
+  article:has(:hover, :focus) {
+    --img-scale: 1.1;
+    --title-color: #28666e;
+    --link-icon-translate: 0;
+    --link-icon-opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  }
+  
+  
+  /************************ 
+  Generic layout (demo looks)
+  **************************/
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 48px 0;
+    font-family: "Figtree", sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    /* background-image: linear-gradient(45deg, #7c9885, #b5b682); */
+    background-color: black;
+    min-height: 100vh;
+  }
+
+  h1{
+    color: white;
+  }
+  
+  .articles {
+    margin-top: 30px;
+    display: grid;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  
+  @media screen and (max-width: 960px) {
+    article {
+      container: card/inline-size;
+    }
+    .article-body p {
+      display: none;
+    }
+  }
+  
+  @container card (min-width: 380px) {
+    .article-wrapper {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+    }
+    .article-body {
+      padding-left: 0;
+    }
+    figure {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    figure img {
+      height: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+  }
+  
+  .sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0); 
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap; 
+    width: 1px;
+  }
+    </style>
+    <body>
+        <h1>Popular Books</h1>
+        <section class="articles">
+            <article>
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://images.ctfassets.net/6g4gfm8wk7b6/6ji46KCPnDCnrXORFrn2wT/8f70489c8f6593ac7d8497b1c14d2d45/R.F._Kuang.png" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>Yellow Face</h2>
+                  <p>
+                    Yellowface is a 2023 novel written by R. F. Kuang. The book was described as a satire of racial diversity in the publishing industry as well as a metafiction about social media, particularly Twitter. Yellowface is Kuang's first venture into literary fiction.
+                  </p>
+                  <a href="./yellowface.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+            <article>
+          
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://images.gr-assets.com/interviews/1677259027p8/1577.jpg" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>Lone Woman</h2>
+                  <p>
+                    Blue skies, empty land—and enough wide-open space to hide a horrifying secret. A woman with a past, a mysterious trunk, a town on the edge of nowhere, and an “absorbing, powerful” (BuzzFeed) new vision of the American West, from the award-winning author of The Changeling.
+                  </p>
+                  <a href="./lonewoman.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+            <article>
+          
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://bookclubchat.com/wp-content/uploads/2023/04/Hello-Beautiful-Book-Club-Questions-2.jpg.webp" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>Hello Beautiful</h2>
+                  <p>
+                    From the author of Dear Edward comes a “powerfully affecting” (People) family story that asks: Can love make a broken person whole?.With the Padavanos, William experiences a newfound contentment; every moment in their house is filled with loving chaos.
+                  </p>
+                  <a href="./hellobeautiful.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <!-- //2nd section -->
+          <div class="second"></div>
+          <section class="articles">
+            <article>
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://cloudfront-ap-southeast-2.images.arcpublishing.com/nzme/ELCFKSA6MNB4BNLBZRZI7G5VD4.jpg" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>Pineapple Street</h2>
+                  <p>
+                    "A deliciously funny, sharply observed novel of family, wealth, love and tennis, this zeitgeisty debut follows three women in an old Brooklyn Heights clan: one who was born with money, one who married into it, and one, the millennial conscience of the family.
+                  </p>
+                  <a href="./pineapple.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+            <article>
+          
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://image.pbs.org/video-assets/HiRIpEL-asset-mezzanine-16x9-UhhOZmy.jpg" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>King:A Life</h2>
+                  <p>
+                    AN INSTANT NEW YORK TIMES BESTSELLER | A Washington Post and National Indie Bestseller | An Obama Summer Reading List Pick“Supple, penetrating, heartstring-pulling and compulsively readable . . . Eig’s book is worthy of its subject.”
+                  </p>
+                  <a href="./king.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+            <article>
+          
+              <div class="article-wrapper">
+                <figure>
+                  <img src="https://akm-img-a-in.tosshub.com/indiatoday/styles/medium_crop_simple/public/2023-01/the_great_indian_thriller_2.jpg?VersionId=QHGVwmhRVzoALlDEXkmGxwjg2WeC4YAo" alt="" />
+                </figure>
+                <div class="article-body">
+                  <h2>Age of Vice</h2>
+                  <p>
+                    Equal parts crime thriller and family saga, transporting readers from the dusty villages of Uttar Pradesh to the urban energy of New Delhi, Age of Vice is an intoxicating novel of gangsters and lovers, false friendships, forbidden romance, and the consequences of corruption. 
+                  </p>
+                  <a href="./ageofvice.html" class="read-more">
+                    Buy Now <span class="sr-only">about this is some title</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </section>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap cdn link  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- font-awesome cdn link  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./publish.css">
+    <title>Publish Page</title>
+    
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo"><img src="/img/logo.png" alt=""></a>
+            <div class="end_bx">
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/publish">Publish</a></li>
+                    <li><a href="/pdfs-list">Published books</a></li>
+                    <li>Category <i class="fas fa-angle-down"></i>
+                        <div class="list">
+                            <a href="#">Trends Now</a>
+                            <a href="#">Popular</a>
+                            <a href="#">Prefrenes</a>
+                            <a href="#">Recently Added</a>
+                            <a href="#">Bollywood</a>
+                            <a href="#">Tollywood</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="search">
+                    <input type="text" placeholder="Search movies..." id="search">
+                    <i class="fas fa-search" id="search_icon"></i>
+                    <div class="search_bx2">
+                        <!-- <a href="#">
+                            <img src="mimg/a perfact.jpg" alt="">
+                            <div class="content2">
+                                <h6>A Perfact</h6>
+                                <p>2018</p>
+                            </div>
+                        </a> -->
+                    </div>
+                </div>
+                <div class="bell">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="cart-icon">
+                    <a href="/cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </div>
+                <!-- <div class="user">
+                    <img src="img/user.png" alt="Jahid Khan" title="jahid khan">
+                </div> -->
+            </div>
+        </nav>
+</header>
+<img src="/book_images/publish.png" style="width: 1000px; height:250px ;">
+<div class="publish-container">
+   
+
+    <form action="/publish" method="post" enctype="multipart/form-data">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="pdfFile">Upload PDF:</label>
+        <input type="file" id="file" name="file" required>
+
+        <button type="submit">Publish</button>
+    </form>
+    <img src="/book_images/right.gif" alt="Right GIF" class="right-gif">
+</div>
+
+</body>
+</html>
