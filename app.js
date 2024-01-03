@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine','ejs');
 app.use(express.static(path.join(__dirname, "/public")));
-const pdfFolderPath = path.join(__dirname, 'uploads');
+const pdfFolderPath = path.join('public', 'uploads');
 
 
 
@@ -184,8 +184,9 @@ app.post('/publish',(req,res)=>{
     var filename=file.name;
     const person_name=req.body.name;
     console.log(filename)
+    const uploadPath = path.join('public', 'uploads', filename);
 
-    file.mv('./uploads/'+filename, function(err){
+    file.mv(uploadPath, function(err){
       if(err){
         res.send(err)
       }
