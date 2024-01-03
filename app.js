@@ -34,10 +34,10 @@ app.use(session({
 app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'Sanjay@12',
-    database: 'sanju',
+    host: 'sql3.freesqldatabase.com',
+    user: 'sql3674361',
+    password: 'CUxsGFsVB8',
+    database: 'sql3674361',
 });
 
 
