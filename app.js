@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const ejs= require('ejs');
 const { Sequelize, DataTypes } = require('sequelize');
-const port = 3000;
+const port = 3001;
 app.use(upload());
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -19,8 +19,9 @@ app.use(express.static(path.join(__dirname, "/public")));
 const pdfFolderPath = path.join('public', 'uploads');
 
 
-
-
+app.get('/', (req, res) => {  
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 
 app.use(session({
@@ -78,9 +79,7 @@ app.post('/addtocart', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.render('Landing_page');
-});
+
 
 //mailsend
 app.post('/send-email', (req, res) => {
@@ -270,7 +269,7 @@ app.get('/publish', (req,res) =>{
 
 //redirect to home page
 app.get('/home', (req,res) =>{
-  const filePath = path.join(__dirname, 'public','index.html');
+  const filePath = path.join(__dirname, 'public','home.html');
     res.sendFile(filePath);
 });
 
