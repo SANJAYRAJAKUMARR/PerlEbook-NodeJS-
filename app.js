@@ -79,7 +79,7 @@ app.post('/addtocart', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('Landing_page');
 });
 
 //mailsend
