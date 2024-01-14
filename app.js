@@ -35,10 +35,10 @@ app.use(session({
 app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
-    host: 'sql3.freesqldatabase.com',
-    user: 'sql3674361',
-    password: 'CUxsGFsVB8',
-    database: 'sql3674361',
+    host: 'mysql-13d4a8d-sanjayrajakumarr-ac5b.a.aivencloud.com',
+    user: 'avnadmin',
+    password: 'AVNS_eCHa1e3qCxPzxgjIWoL',
+    database: 'defaultdb',
 });
 
 
