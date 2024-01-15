@@ -182,6 +182,7 @@ app.post('/publish',(req,res)=>{
     var file=req.files.file;
     var filename=file.name;
     const person_name=req.body.name;
+    const status="submitted";
     console.log(filename)
     const uploadPath = path.join('public', 'uploads', filename);
 
@@ -190,8 +191,8 @@ app.post('/publish',(req,res)=>{
         res.send(err)
       }
       else{
-        const insertQuery = 'INSERT INTO published (person_name, filename) VALUES (?, ?)';
-        connection.query(insertQuery, [person_name, filename], (err, result) => {
+        const insertQuery = 'INSERT INTO published (person_name, filename,status) VALUES (?, ?,?)';
+        connection.query(insertQuery, [person_name, filename,status], (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             } else {
@@ -224,7 +225,7 @@ app.get('/signout', (req,res)=>{
 //published books
 app.get('/pdfs-list', (req, res) => {
   // Assuming you have a database connection and a query function
-  connection.query('SELECT * FROM published', (err, results) => {
+  connection.query('SELECT * FROM published where status="submitted"', (err, results) => {
       if (err) {
           return res.status(500).send(err.message);
       }
@@ -238,9 +239,29 @@ app.get('/pdfs-list', (req, res) => {
 });
 
 //redirect to profile page
-app.get('/profile', (req,res) =>{
-  res.render('profile');
+app.get('/profile', (req, res) => {
+  if (!req.session || !req.session.username) {
+    console.error('Error: req.session or req.session.username is not defined');
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+  const query = 'SELECT * FROM user_details WHERE UserName = ?';
+  connection.query(query, [req.session.username], (err, results) => {
+    if (err) {
+      console.error('Error fetching user profile data:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (results.length === 0) {
+      // User not found
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userProfile = results[0];
+    res.render('profile', { userProfile });
+  });
 });
+
 
 
 
@@ -260,6 +281,20 @@ app.get('/feelgood', (req,res) =>{
   const filePath = path.join(__dirname, 'public', 'feel_good', 'sample.html');
     res.sendFile(filePath);
 });
+
+//redirect to admin_dashboard page
+app.get('/admin',(req,res)=>{
+  const query = 'SELECT * FROM published WHERE status != "submitted"';
+  connection.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching published records:', err);
+          return res.status(500).send('Internal Server Error');
+      }
+
+      // Render the page with the fetched published records
+      res.render('Admin_dashboard.ejs', { publishedRecords: results });
+  });
+})
 
 //redirect to publish page
 app.get('/publish', (req,res) =>{
@@ -313,13 +348,17 @@ app.post('/login', (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
    
-   
-    if (results.length>0) {
+    if (results.length > 0) {
       // Successful login
       
       req.session.username = username;
       console.log(req.session.username);
-      
+
+      // Check if the user is admin
+      if (username === 'admin' && password === '1') {
+        return res.redirect('/admin');
+      }
+
       return res.redirect('/home');
     } else {
       // Invalid credentials
@@ -328,12 +367,43 @@ app.post('/login', (req, res) => {
   });
 });
 
-// Handle profile display
-app.get('/profile', (req, res) => {
-  if (!req.session || !req.session.username) {
-    console.error('Error: req.session or req.session.username is not defined');
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
 
-  res.render('profile', { username: req.session.username });
+
+
+
+app.post('/update-status', (req, res) => {
+  const filename = req.body.filename;
+  const newStatus = req.body.status;
+
+  // Update the status in your database based on filename
+  // Implement the logic to update the status in your database
+  // For example, you might use a SQL UPDATE query
+
+  // Sample SQL query (make sure to adapt it to your database structure)
+  const updateQuery = 'UPDATE published SET status = ? WHERE filename = ?';
+  connection.query(updateQuery, [newStatus, filename], (err, result) => {
+      if (err) {
+          console.error('Error updating status:', err);
+          // Handle the error appropriately (e.g., send an error response)
+          res.status(500).send('Internal Server Error');
+      } else {
+          // Handle the success appropriately (e.g., send a success response)
+          res.redirect('/pdfs-list');
+      }
+  });
+});
+
+app.get('/user-list', (req, res) => {
+    // Select all data except the Password column
+    const query = 'SELECT UserName, Email, Phone FROM user_details';
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        // Render the EJS page with the user data
+        res.render('user-list', { users: results });
+    });
 });

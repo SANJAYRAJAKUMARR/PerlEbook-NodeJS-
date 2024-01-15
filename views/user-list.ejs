@@ -1,0 +1,59 @@
+<!-- user-list.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <!-- Add your styles if needed -->
+    <style>
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+a {
+    text-decoration: none;
+}
+
+h4{
+    font-size: 25px;
+    padding-top: 50px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+    </style>
+</head>
+
+<body>
+    <h2>User List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < users.length; i++) { %>
+                <tr>
+                    <td><%= users[i].UserName %></td>
+                    <td><%= users[i].Email %></td>
+                    <td><%= users[i].Phone %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>

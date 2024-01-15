@@ -530,7 +530,11 @@ header .slider_btns h6:nth-child(1) {
     left: 45%;
 }
 
-
+h1{
+    font-size: 30px;
+    margin-left: 600px;
+    margin-top: 100px;
+}
 /* tranding box active classes start  */
 
 .tranding_bx li .active {

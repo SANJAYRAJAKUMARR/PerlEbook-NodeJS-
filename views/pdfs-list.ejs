@@ -11,7 +11,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color:white;
+            background-color: white;
         }
 
         th, td {
@@ -23,14 +23,41 @@
         th {
             background-color: #f2f2f2;
         }
+
         body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(90deg, #C7C5F4, #776BCC);	 /* Set your desired background color */
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(90deg, #C7C5F4, #776BCC); /* Set your desired background color */
+        }
+        button.accepted {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px;
+    cursor: pointer;
 }
-h2{
-    color: wheat;
+
+/* Style for Rejected button */
+button.rejected {
+    background-color: #FF0000; /* Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px;
+    cursor: pointer;
 }
+        h2 {
+            color: wheat;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +68,8 @@ h2{
                 <th>Person Name</th>
                 <th>Filename</th>
                 <th>PDF</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +78,19 @@ h2{
                     <td><%= pdfFiles[i].person_name %></td>
                     <td><%= pdfFiles[i].filename %></td>
                     <td><a href="/pdfs/<%= pdfFiles[i].filename %>" target="_blank">Open PDF</a></td>
+                    <td><%= pdfFiles[i].status %></td>
+                    <td>
+                        <form action="/update-status" method="POST" style="display: inline;">
+                            <input type="hidden" name="filename" value="<%= pdfFiles[i].filename %>">
+                            <input type="hidden" name="status" value="accepted">
+                            <button type="submit" class="accepted">Accept</button>
+                        </form>
+                        <form action="/update-status" method="POST" style="display: inline;">
+                            <input type="hidden" name="filename" value="<%= pdfFiles[i].filename %>">
+                            <input type="hidden" name="status" value="rejected">
+                            <button type="submit" class="rejected">Reject</button>
+                        </form>
+                    </td>
                 </tr>
             <% } %>
         </tbody>
