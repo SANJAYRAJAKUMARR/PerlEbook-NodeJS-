@@ -60,11 +60,11 @@ app.post('/addtocart', (req, res) => {
     console.log('name:',name);
     console.log('author:',author);
     console.log('price:',price);
-    const username=req.session.username;
+    const useremail=req.session.email;
 
     // Insert the book data into the database
-    const sql = 'INSERT INTO books (name, author, price,username) VALUES (?, ?, ?,?)';
-    connection.query(sql, [name, author, price,username], (err, results) => {
+    const sql = 'INSERT INTO books (name, author, price,useremail) VALUES (?, ?, ?,?)';
+    connection.query(sql, [name, author, price,useremail], (err, results) => {
         if (err) {
             console.error('Error inserting data into MySQL:', err);
             res.status(500).send('Error adding book to cart');
@@ -83,16 +83,21 @@ app.post('/addtocart', (req, res) => {
 
 //mailsend
 app.post('/send-email', (req, res) => {
-    const { exec } = require('child_process');
-    exec('node send-email.js', (error, stdout, stderr) => {
+  const { exec } = require('child_process');
+
+  // Pass the email address as a command-line argument
+  const command = `node send-email.js ${req.session.email}`;
+
+  exec(command, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Error executing send-email.js: ${error}`);
-        return res.status(500).json({ error: 'Internal server error' });
+          console.error(`Error executing send-email.js: ${error}`);
+          return res.status(500).json({ error: 'Internal server error' });
       }
       console.log(`Email script output: ${stdout}`);
       res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
-    });
   });
+});
+
 
 //printing data in addtocart page
 app.get('/cart', (req, res) => {
@@ -105,11 +110,11 @@ app.get('/cart', (req, res) => {
 
 // Modify the getCartData function to accept req as a parameter
 function getCartData(req, callback) {
-  const username = req.session.username;
+  const useremail = req.session.email;
 
-  const query = 'SELECT * FROM books WHERE UserName = ?';
+  const query = 'SELECT * FROM books WHERE Useremail = ?';
 
-  connection.query(query, [username], (err, results) => {
+  connection.query(query, [useremail], (err, results) => {
     if (err) {
       console.error('Error querying MySQL:', err);
       callback([]);
@@ -350,9 +355,12 @@ app.post('/login', (req, res) => {
    
     if (results.length > 0) {
       // Successful login
-      
+      const user = results[0]; // Assuming there is only one user with the given username and password
+
       req.session.username = username;
+      req.session.email = user.Email; // Assuming the email column in the user_details table is named 'Email'
       console.log(req.session.username);
+      console.log(req.session.email);
 
       // Check if the user is admin
       if (username === 'admin' && password === '1') {
@@ -366,6 +374,7 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
 
 
 
@@ -406,4 +415,51 @@ app.get('/user-list', (req, res) => {
         // Render the EJS page with the user data
         res.render('user-list', { users: results });
     });
+});
+
+app.get('/orders', (req, res) => {
+  const useremail = req.session.email;
+  const query = 'SELECT bookname, author, price,status FROM orders WHERE useremail = ?';
+
+  connection.query(query, [useremail], (err, results) => {
+      if (err) {
+          console.error('Error querying MySQL:', err);
+          return res.status(500).send('Internal Server Error');
+      }
+
+      const orders = results;
+      res.render('orders', { orders });
+  });
+});
+
+app.get('/orders_status', (req, res) => {
+  const useremail = req.session.email;
+  const query = 'SELECT bookname, author, price,status FROM orders WHERE useremail = ?';
+
+  connection.query(query, [useremail], (err, results) => {
+      if (err) {
+          console.error('Error querying MySQL:', err);
+          return res.status(500).send('Internal Server Error');
+      }
+
+      const orders = results;
+      res.render('orders_status', { orders });
+  });
+});
+app.post('/update-orderstatus', (req, res) => {
+  const bookname= req.body.bookname;
+  const newStatus = req.body.newStatus;
+  console.log("status is "+newStatus+" order id is "+bookname);
+  // Assuming you have a table named 'orders' in your database
+  const updateQuery = 'UPDATE orders SET status = ? WHERE bookname = ?';
+
+  connection.query(updateQuery, [newStatus, bookname], (err, results) => {
+    if (err) {
+      console.error('Error updating status in MySQL:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Assuming you want to redirect to the orders_status page after updating
+    res.redirect('/admin');
+  });
 });

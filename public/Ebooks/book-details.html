@@ -4,8 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Details</title>
-  <link rel="stylesheet" href="./ebook_style.css">
+  
   <style>
+    .navbar {
+    background-color: #333;
+    overflow: hidden;
+    margin-top: -20px;
+    width:100%;
+  }
+  
+  .navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  padding-right:40px;
+  }
+  
+  .navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Button Styles */
+  .button {
+    background-color: #4caf50; /* Green color for the buttons, you can change it */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .button:hover {
+    background-color: #45a049; /* Darker green on hover, you can change it */
+  }
+  
+  /* Clearfix for Floating Elements */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  .right-corner {
+    position:relative;
+    left: 50%;
+  }
+   
    #ratings_average,
 #currently_reading_count,
 #already_read_count,
@@ -30,6 +78,7 @@
       font-family: Arial, sans-serif;
       text-align: center;
       margin: 20px;
+      background: linear-gradient(90deg, #C7C5F4, #776BCC);	 
     }
 
     #details {
@@ -83,51 +132,14 @@
   </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="/" class="logo"><img src="/img/logo.png" alt=""></a>
-            <div class="end_bx">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="/publish">Publish</a></li>
-                    <li><a href="Audio_Books/books_1.html">Audio Books</a></li>
-                    <li>Category <i class="fas fa-angle-down"></i>
-                        <div class="list">
-                            <a href="#">Trends Now</a>
-                            <a href="#">Popular</a>
-                            <a href="#">Prefrenes</a>
-                            <a href="#">Recently Added</a>
-                            <a href="#">Bollywood</a>
-                            <a href="#">Tollywood</a>
-                        </div>
-                    </li>
-                </ul>
-                
-               
-                <div class="cart-icon">
-                    <a href="/cart">
-                        <i class="fas fa-shopping-cart" style="color: rgba(122, 239, 20, 0.7);"></i>
-                    </a>
-                </div>
-                <div class="user-icon">
-                    <a href="/profile">
-                        <i class="fa fa-user" style="color: rgba(122, 239, 20, 0.7);"></i>
-                    </a>
-                </div>
-                <div class="signout">
-                    <a href="/signout">
-                        <i class="fas fa-sign-out-alt" style="color: rgba(122, 239, 20, 0.7);"></i>
-                    </a>
-                </div>
-                <!-- <div class="user">
-                    <img src="img/user.png" alt="Jahid Khan" title="jahid khan">
-                </div> -->
-            </div>
-        </nav>
-        
-        
-       
-    </header>
+  <div class="navbar clearfix">
+    <div class="right-corner">
+      <a href="/home">Home</a>
+      <a href="Ebooks/ebook_home.html">Ebook</a>
+      <a href="/publish">Publish</a>
+    
+    </div>
+    </div>
   <div id="details">
     <h1>Book Details</h1>
     <div class="card">

@@ -1,41 +1,111 @@
 const nodemailer = require("nodemailer");
-// Import NodeMailer (after npm install)
+const mysql = require('mysql2');
 
-async function main() {
-// Async function enables allows handling of promises with await
+// Create a MySQL connection
+const connection = mysql.createConnection({
+  host: 'sql3.freesqldatabase.com',
+  user: 'sql3676887',
+  password: '35NCM6M4h3',
+  database: 'sql3676887',
+});
 
-  // First, define send settings by creating a new transporter: 
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+// Connect to the MySQL database
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+        return;
+    }
     
-    port: 465, // Port for SMTP (usually 465)
-    secure: true, // Usually true if connecting to port 465
-    auth: {
-      user: "sanjayrajakumarr@gmail.com", // Your email address
-      pass: "qrkw eiid ppue strv", // Password (for gmail, your app password)
-      // ⚠️ For better security, use environment variables set on the server for these values when deploying
-    },
-  });
-  
-  // Define and send message inside transporter.sendEmail() and await info about send from promise:
-  let info = await transporter.sendMail({
-    from: '"sanjayrajakumarr" <sanjayrajakumarr@gmail.com>',
-    to: "sanjayrajakumarr@gmail.com",
-    subject: "Book Order-Reg",
-    html: `
-    <h1>Perl Ebook</h1>
-    <p>Your Order has been placed Successfully!</p>
-    <img src="cid:sanjayrajakumarr@gmail.com>"/ width="400">
-    `,
-    attachments: [{
-        filename: 'reltivity.jpg',
-        path: './public/book_images/relativity.jpg',
-        cid: 'sanjayrajakumarr@gmail.com' // Sets content ID
-      }]
-  });
+    console.log('Connected to MySQL');
+});
 
-  console.log(info.messageId); // Random ID generated after successful send (optional)
+// Retrieve book details from the books table for the given username
+const useremail = process.argv[2];
+console.log(useremail);
+const query = 'SELECT name, author, price FROM books WHERE useremail = ?';
+connection.query(query, [useremail], (err, results) => {
+    if (err) {
+        console.error('Error querying MySQL:', err);
+        return;
+    }
+
+    // Store the book details in req.session.email
+    const bookDetails = results;
+    console.log('Book details:', bookDetails);
+
+    // Use the obtained email and book details to send the email
+    sendMail(useremail, bookDetails);
+    insertIntoOrders(useremail, bookDetails);
+    deleteFromBooks(useremail);
+});
+
+// Define the function to send the email
+async function sendMail(email, bookDetails) {
+    // Create a transporter
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "sanjayrajakumarr@gmail.com",
+            pass: "rfhq ytml bcne evxt",
+        },
+    });
+    
+    // Construct the email content
+    const info = await transporter.sendMail({
+        from: '"sanjayrajakumarr" <sanjayrajakumarr@gmail.com>',
+        to: email,
+        subject: "Book Order-Reg",
+        html: `
+            
+            <img src="cid:sanjayrajakumarr@gmail.com" width="200" height="200">
+            <h4>Perl Ebook</h4>
+            <h3>Your Order has been placed Successfully!</h3>
+            <p>Order Details:</p>
+            <ul>
+                ${bookDetails.map(book => `<li>BookName: ${book.name}, Author: ${book.author}, Price: $${book.price}</li>`).join('')}
+            </ul>
+        `,
+        attachments: [{
+            filename: 'check-mark.png',
+            path: './public/book_images/check-mark.png',
+            cid: 'sanjayrajakumarr@gmail.com'
+        }]
+    });
+    
+  
+
+    console.log(info.messageId);
+}
+const status="ordered placed";
+function insertIntoOrders(email, bookDetails) {
+    const insertQuery = 'INSERT INTO orders (bookname, author, price, useremail,status) VALUES (?, ?, ?, ?,?)';
+    
+    bookDetails.forEach(book => {
+        const values = [book.name, book.author, book.price, email,status];
+        
+        connection.query(insertQuery, values, (err, results) => {
+            if (err) {
+                console.error('Error inserting into orders table:', err);
+                return;
+            }
+            
+            console.log('Inserted into orders table:', results);
+        });
+    });
 }
 
-main()
-.catch(err => console.log(err));
+function deleteFromBooks(email) {
+    const deleteQuery = 'DELETE FROM books WHERE useremail = ?';
+
+    connection.query(deleteQuery, [email], (err, results) => {
+        if (err) {
+            console.error('Error deleting from books table:', err);
+            return;
+        }
+
+        console.log('Deleted from books table:', results);
+    });
+}
+
