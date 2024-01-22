@@ -39,6 +39,7 @@ const connection = mysql.createConnection({
     user: 'sql3678838',
     password: 'NyQCcWak27',
     database: 'sql3678838',
+    connectTimeout: 10000,
 });
 
 
@@ -94,9 +95,10 @@ app.post('/send-email', (req, res) => {
           return res.status(500).json({ error: 'Internal server error' });
       }
       console.log(`Email script output: ${stdout}`);
-      res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
+      // res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
   });
 });
+
 
 
 //printing data in addtocart page
