@@ -34,7 +34,7 @@ connection.query(query, [useremail], (err, results) => {
     console.log('Book details:', bookDetails);
 
     // Use the obtained email and book details to send the email
-    sendMail(useremail, bookDetails);
+    // sendMail(useremail, bookDetails);
     insertIntoOrders(useremail, bookDetails);
     deleteFromBooks(useremail);
    
@@ -76,7 +76,7 @@ async function sendMail(email, bookDetails) {
     });
     
   
-
+}
 //     console.log(info.messageId);
 // }
 
@@ -109,5 +109,4 @@ function deleteFromBooks(email) {
 
         console.log('Deleted from books table:', results);
     });
-}
 }
