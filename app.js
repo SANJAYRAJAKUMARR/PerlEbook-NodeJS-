@@ -36,9 +36,9 @@ app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
     host: 'sql3.freesqldatabase.com',
-    user: 'sql3676887',
-    password: '35NCM6M4h3',
-    database: 'sql3676887',
+    user: 'sql3678838',
+    password: 'NyQCcWak27',
+    database: 'sql3678838',
 });
 
 
@@ -218,6 +218,25 @@ app.get('/login', (req,res) =>{
 //redirect to signup page
 app.get('/signup', (req,res) =>{
   const filePath = path.join(__dirname, 'public', 'Logins', 'signup.html');
+    res.sendFile(filePath);
+});
+
+//redirect to ebook page
+app.get('/ebook', (req,res) =>{
+  const filePath = path.join(__dirname, 'public', 'Ebooks', 'ebook_home.html');
+    res.sendFile(filePath);
+});
+
+//redirect to chart page
+app.get('/chart', (req,res) =>{
+  const filePath = path.join(__dirname, 'public', 'Admin','chart', 'bar_chart.html');
+    res.sendFile(filePath);
+});
+
+//redirect to data.csv file
+//redirect to chart page
+app.get('/data.csv', (req,res) =>{
+  const filePath = path.join(__dirname, 'public', 'Admin','chart', 'data.csv');
     res.sendFile(filePath);
 });
 
