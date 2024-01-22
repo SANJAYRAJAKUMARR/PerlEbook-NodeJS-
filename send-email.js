@@ -34,46 +34,46 @@ connection.query(query, [useremail], (err, results) => {
     console.log('Book details:', bookDetails);
 
     // Use the obtained email and book details to send the email
-    // sendMail(useremail, bookDetails);
+    sendMail(useremail, bookDetails);
     insertIntoOrders(useremail, bookDetails);
     deleteFromBooks(useremail);
    
 });
 
 // // Define the function to send the email
-// async function sendMail(email, bookDetails) {
-//     // Create a transporter
-//     const transporter = nodemailer.createTransport({
-//         host: "smtp.gmail.com",
-//         port: 465,
-//         secure: true,
-//         auth: {
-//             user: "sanjayrajakumarr@gmail.com",
-//             pass: "ksyt igvk ozkc dzox",
-//         },
-//     });
+async function sendMail(email, bookDetails) {
+    // Create a transporter
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "sanjayrajakumarr@gmail.com",
+            pass: "ksyt igvk ozkc dzox",
+        },
+    });
     
-//     // Construct the email content
-//     const info = await transporter.sendMail({
-//         from: '"sanjayrajakumarr" <sanjayrajakumarr@gmail.com>',
-//         to: email,
-//         subject: "Book Order-Reg",
-//         html: `
+    // Construct the email content
+    const info = await transporter.sendMail({
+        from: '"sanjayrajakumarr" <sanjayrajakumarr@gmail.com>',
+        to: email,
+        subject: "Book Order-Reg",
+        html: `
             
-//             <img src="cid:sanjayrajakumarr@gmail.com" width="200" height="200">
-//             <h4>Perl Ebook</h4>
-//             <h3>Your Order has been placed Successfully!</h3>
-//             <p>Order Details:</p>
-//             <ul>
-//                 ${bookDetails.map(book => `<li>BookName: ${book.name}, Author: ${book.author}, Price: $${book.price}</li>`).join('')}
-//             </ul>
-//         `,
-//         attachments: [{
-//             filename: 'check-mark.png',
-//             path: './public/book_images/check-mark.png',
-//             cid: 'sanjayrajakumarr@gmail.com'
-//         }]
-//     });
+            <img src="cid:sanjayrajakumarr@gmail.com" width="200" height="200">
+            <h4>Perl Ebook</h4>
+            <h3>Your Order has been placed Successfully!</h3>
+            <p>Order Details:</p>
+            <ul>
+                ${bookDetails.map(book => `<li>BookName: ${book.name}, Author: ${book.author}, Price: $${book.price}</li>`).join('')}
+            </ul>
+        `,
+        attachments: [{
+            filename: 'check-mark.png',
+            path: './public/book_images/check-mark.png',
+            cid: 'sanjayrajakumarr@gmail.com'
+        }]
+    });
     
   
 
@@ -109,4 +109,5 @@ function deleteFromBooks(email) {
 
         console.log('Deleted from books table:', results);
     });
+}
 }
