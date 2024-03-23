@@ -5,11 +5,18 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
     host: 'boozsqtcnrpqnu9idwf0-mysql.services.clever-cloud.com',
     user: 'urkeaoxlzhsrc6ro',
-    password: 'urkeaoxlzhsrc6ro',
+    password: 'Ps90SB2PkXDuKNU3tF5b',
     database: 'boozsqtcnrpqnu9idwf0',
-    connectTimeout: 10000,
+    port:3306,
+    connectTimeout:10000,
 });
-
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'Sanjay@12',
+//     database: 'sanju',
+//     connectTimeout: 10000,
+//   });
 // Connect to the MySQL database
 connection.connect((err) => {
     if (err) {
@@ -35,13 +42,12 @@ connection.query(query, [useremail], (err, results) => {
     console.log('Book details:', bookDetails);
 
     // Use the obtained email and book details to send the email
-    // sendMail(useremail, bookDetails);
+    //sendMail(useremail, bookDetails);
     insertIntoOrders(useremail, bookDetails);
     deleteFromBooks(useremail);
-   
 });
 
-// // Define the function to send the email
+// Define the function to send the email
 async function sendMail(email, bookDetails) {
     // Create a transporter
     const transporter = nodemailer.createTransport({
@@ -50,7 +56,7 @@ async function sendMail(email, bookDetails) {
         secure: true,
         auth: {
             user: "sanjayrajakumarr@gmail.com",
-            pass: "ksyt igvk ozkc dzox",
+            pass: "lnyv umxo ygtg xapz",
         },
     });
     
@@ -77,12 +83,11 @@ async function sendMail(email, bookDetails) {
     });
     
   
-}
-//     console.log(info.messageId);
-// }
 
+    console.log(info.messageId);
+}
+const status="ordered placed";
 function insertIntoOrders(email, bookDetails) {
-    const status="ordered placed";
     const insertQuery = 'INSERT INTO orders (bookname, author, price, useremail,status) VALUES (?, ?, ?, ?,?)';
     
     bookDetails.forEach(book => {

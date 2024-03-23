@@ -41,6 +41,7 @@ const connection = mysql.createConnection({
     password: 'Ps90SB2PkXDuKNU3tF5b',
     database: 'boozsqtcnrpqnu9idwf0',
     port:3306,
+    connectTimeout:10000,
 });
 // const connection = mysql.createConnection({
 //   host: 'localhost',
@@ -92,7 +93,6 @@ app.post('/addtocart', (req, res) => {
 });
 
 
-
 //mailsend
 app.post('/send-email', (req, res) => {
   const { exec } = require('child_process');
@@ -106,9 +106,35 @@ app.post('/send-email', (req, res) => {
           return res.status(500).json({ error: 'Internal server error' });
       }
       console.log(`Email script output: ${stdout}`);
-      // res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
+      res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
   });
 });
+
+app.post('/send-email', (req, res) => {
+    // Pass the email address as a command-line argument
+    const userEmail = req.session.email;
+    const scriptPath = 'send-email.js';
+
+    const scriptProcess = spawn('node', [scriptPath, userEmail]);
+
+    scriptProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+
+    scriptProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    scriptProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+        if (code === 0) {
+            res.json({ message: 'Order Placed Successfully! Check mail for further details!' });
+        } else {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
+});
+
 
 
 
