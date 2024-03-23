@@ -56,6 +56,15 @@ body {
     padding: 20px 0;
 }
 
+.books-button{
+    margin: inherit;
+    margin-left: auto;
+    cursor: pointer;
+    background-color: deepskyblue;
+    color: white;
+    border: aliceblue;
+}
+
 .order-button {
       display: inline-block;
       padding: 10px 20px;
@@ -209,6 +218,7 @@ p {
                                                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Orders</h6>
                                                                 <div class="row">
                                                                     <a href="/orders" class="order-button">Go to Orders</a>
+                                                                    <button onclick="executePythonScript()" class="books-button">Get Recommended books</button>
                                                                 </div>
                                                                 <ul class="social-link list-unstyled m-t-40 m-b-10">
                                                                     <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
@@ -223,6 +233,8 @@ p {
                                              </div>
                                                 </div>
                                             </div>
+
+ <script src="recommend.js"></script>
                     
 </body>
 </html>

@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine','ejs');
 app.use(express.static(path.join(__dirname, "/public")));
 const pdfFolderPath = path.join('public', 'uploads');
+const { spawn } = require('child_process');
 
 
 app.get('/', (req, res) => {  
@@ -41,6 +42,13 @@ const connection = mysql.createConnection({
     database: 'sql3678838',
     connectTimeout: 10000,
 });
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'Sanjay@12',
+//   database: 'sanju',
+//   connectTimeout: 10000,
+// });
 
 
 
@@ -482,5 +490,55 @@ app.post('/update-orderstatus', (req, res) => {
 
     // Assuming you want to redirect to the orders_status page after updating
     res.redirect('/admin');
+  });
+});
+
+app.get('/recommendedbooks', (req, res) => {
+  // Command to execute Python script
+  const pythonProcess = spawn('python', ['script.py']);
+  
+  let dataFromPython = '';
+
+  // Handling standard output of the Python script
+  pythonProcess.stdout.on('data', (data) => {
+      dataFromPython += data.toString(); // Convert buffer to string
+  });
+
+  // Handling standard error of the Python script
+  pythonProcess.stderr.on('data', (data) => {
+      console.error(`Python script stderr: ${data}`);
+  });
+
+  // Handling Python script exit
+  pythonProcess.on('close', (code) => {
+      console.log(`Python script exited with code ${code}`);
+      // Render the EJS template with data from the Python script
+      res.render('index', { dataFromPython: dataFromPython });
+  });
+});
+
+
+
+app.get('/index', (req, res) => {
+  // Command to execute Python script
+  const pythonProcess = spawn('python', ['script.py']);
+  
+  let dataFromPython = '';
+
+  // Handling standard output of the Python script
+  pythonProcess.stdout.on('data', (data) => {
+      dataFromPython += data.toString(); // Convert buffer to string
+  });
+
+  // Handling standard error of the Python script
+  pythonProcess.stderr.on('data', (data) => {
+      console.error(`Python script stderr: ${data}`);
+  });
+
+  // Handling Python script exit
+  pythonProcess.on('close', (code) => {
+      console.log(`Python script exited with code ${code}`);
+      // Render the EJS template with data from the Python script
+      res.render('index', { dataFromPython: dataFromPython });
   });
 });
