@@ -36,11 +36,11 @@ app.use(session({
 app.use('/pdfs', express.static(pdfFolderPath));
 // Create a MySQL connection
 const connection = mysql.createConnection({
-    host: 'sql3.freesqldatabase.com',
-    user: 'sql3678838',
-    password: 'NyQCcWak27',
-    database: 'sql3678838',
-    connectTimeout: 10000,
+    host: 'boozsqtcnrpqnu9idwf0-mysql.services.clever-cloud.com',
+    user: 'urkeaoxlzhsrc6ro',
+    password: 'Ps90SB2PkXDuKNU3tF5b',
+    database: 'boozsqtcnrpqnu9idwf0',
+    port:3306,
 });
 // const connection = mysql.createConnection({
 //   host: 'localhost',
@@ -62,6 +62,9 @@ connection.connect((err) => {
     console.log('Connected to MySQL');
 });
 
+connection.on('error', function(err) {
+  console.error('MySQL connection error: ' + err.stack);
+});
 // Create a route to handle adding a book to the database
 app.post('/addtocart', (req, res) => {
     // Retrieve book data from the request body

@@ -3,10 +3,11 @@ const mysql = require('mysql2');
 
 // Create a MySQL connection
 const connection = mysql.createConnection({
-  host: 'sql3.freesqldatabase.com',
-  user: 'sql3678838',
-  password: 'NyQCcWak27',
-  database: 'sql3678838',
+    host: 'boozsqtcnrpqnu9idwf0-mysql.services.clever-cloud.com',
+    user: 'urkeaoxlzhsrc6ro',
+    password: 'urkeaoxlzhsrc6ro',
+    database: 'boozsqtcnrpqnu9idwf0',
+    connectTimeout: 10000,
 });
 
 // Connect to the MySQL database
